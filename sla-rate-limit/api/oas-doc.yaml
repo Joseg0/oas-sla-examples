@@ -8,11 +8,11 @@ info:
 security:
   - BearerAuth: []
 paths:
-  /api/v1/teams:
-    x-router-controller: teamsController
+  /api/v1/employees:
+    x-router-controller: employersController
     get:
       description: Returns all teams
-      operationId: getTeams
+      operationId: getEmployees
       responses:
         200:
           description: Team list
@@ -21,41 +21,21 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/team'
+                  $ref: '#/components/schemas/employee'
         default:
           description: Unexpected error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'
-    post:
-      description: Creates a new team
-      operationId: addTeam
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/team'
-        description: Team to be created
-        required: true
-      responses:
-        201:
-          description: Team
-        default:
-            description: Unexpected error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/error'
-                  
-  /api/v1/teams/{id}:
-    x-router-controller: teamsController
+                $ref: '#/components/schemas/error'     
+  /api/v1/employees/{value}:
+    x-router-controller: employersController
     get:
       description: Returns a single team by its id
-      operationId: findByid
+      operationId: findByvalue
       parameters:
         - required: true
-          name: id
+          name: value
           description: id of the team to fetch
           in: path
           schema:
@@ -66,59 +46,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/team'
+                $ref: '#/components/schemas/employee'
         default:
           description: Unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-    put:
-      description: Update a team based on its id
-      operationId: updateTeam
-      parameters:
-        - required: true
-          name: id
-          description: id of the team to update
-          in: path
-          schema:
-            type: number
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/team'
-        description: Team to be updated
-        required: true
-      responses:
-        '204':
-          description: Team updated
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-    delete:
-      description: Deletes a single team based on its id
-      operationId: deleteTeam
-      parameters:
-        - required: true
-          name: id
-          description: id of the team to delete
-          in: path
-          schema:
-            type: number
-      responses:
-        '204':
-          description: Team deleted
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-
 components:
   securitySchemes:
     BearerAuth:
@@ -129,22 +63,20 @@ components:
     team:
         type: object
         required:
-          - id
+          - value
         properties:
-          id:
+          genre:
+            type: string
+          live_with:
             type: number
-          name:
+          territory:
             type: string
-          code:
-            type: string
-          country:
-            type: string
-          founded:
+          employee:
             type: number
-          national:
-            type: boolean
-          logo:
-            type: string
+          value:
+            type: number
+          year:
+            type: number
     error:
       type: object
       required:
